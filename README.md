@@ -91,6 +91,19 @@ build_windows.bat Release
 
 ---
 
+### Ошибки кода: `HttpRequest` / `WebApplication` / "top-level statements must be executable"
+
+Сделано исправление в проекте:
+- в `Program.cs` добавлены явные `using` для ASP.NET Core (`Microsoft.AspNetCore.Builder`, `Microsoft.AspNetCore.Http`, `Microsoft.Extensions.DependencyInjection`);
+- в `SecureMessenger.csproj` добавлено `<OutputType>Exe</OutputType>`.
+
+Это устраняет ошибки:
+- `Имя "WebApplication" не существует в текущем контексте`;
+- `Не удалось найти тип или имя пространства имен "HttpRequest"`;
+- `Программы, использующие инструкции верхнего уровня, должны быть исполняемыми`.
+
+---
+
 ## Flower ZIP (ваша ссылка Dropbox)
 
 Добавлены скрипты:
