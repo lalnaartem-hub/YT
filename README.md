@@ -96,6 +96,7 @@ build_windows.bat Release
 Сделано исправление в проекте:
 - в `Program.cs` добавлены явные `using` для ASP.NET Core (`Microsoft.AspNetCore.Builder`, `Microsoft.AspNetCore.Http`, `Microsoft.Extensions.DependencyInjection`);
 - в `SecureMessenger.csproj` добавлено `<OutputType>Exe</OutputType>`.
+- `Program.cs` переведён на явный `Program.Main(...)` (без top-level statements), чтобы убрать CS8805 в проблемных конфигурациях MSBuild/IDE.
 
 Это устраняет ошибки:
 - `Имя "WebApplication" не существует в текущем контексте`;
