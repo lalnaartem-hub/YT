@@ -51,6 +51,20 @@ build_windows.bat Release
 
 ---
 
+### Ошибка: "не удалось найти указанный пакет SDK Microsoft.NET.Sdk.Web"
+
+Сделано исправление в проекте: `SecureMessenger.csproj` переведён на `Microsoft.NET.Sdk` + `FrameworkReference Microsoft.AspNetCore.App`.
+
+Проверьте SDK на Windows:
+
+```powershell
+dotnet --list-sdks
+```
+
+Нужен минимум .NET 8 SDK. Если нет — установите `.NET 8 SDK x64` и перезапустите Visual Studio.
+
+---
+
 ## Flower ZIP (ваша ссылка Dropbox)
 
 Добавлены скрипты:
