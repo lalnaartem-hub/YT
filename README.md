@@ -65,6 +65,32 @@ dotnet --list-sdks
 
 ---
 
+
+### Ошибка: "не удалось найти указанный пакет SDK Microsoft.NET.Sdk"
+
+Это значит, что на вашей машине не найден .NET SDK (даже базовый).
+
+Сделан авто-фикс в репозитории:
+- `scripts/install_dotnet_sdk.ps1`
+- `scripts/install_dotnet_sdk.bat`
+- `build_windows.ps1` и `build_windows.bat` теперь автоматически ставят локальный SDK в папку `.dotnet/`.
+
+Запустите на Windows:
+
+```powershell
+./build_windows.ps1 -Configuration Release
+```
+
+или
+
+```bat
+build_windows.bat Release
+```
+
+Скрипт сам скачает SDK и соберёт решение через `.dotnet\dotnet.exe`.
+
+---
+
 ## Flower ZIP (ваша ссылка Dropbox)
 
 Добавлены скрипты:
@@ -117,6 +143,8 @@ build_windows.ps1
 scripts/
   setup_flower_assets.ps1
   setup_flower_assets.bat
+  install_dotnet_sdk.ps1
+  install_dotnet_sdk.bat
 SecureMessenger/
   SecureMessenger.csproj
   3d_models/

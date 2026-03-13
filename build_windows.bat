@@ -7,21 +7,27 @@ if "%~1"=="" (
   set CONFIG=%~1
 )
 
+if not exist .dotnet\dotnet.exe (
+  echo [MARX] dotnet not found locally. Installing SDK...
+  call scripts\install_dotnet_sdk.bat -Version 8.0.100 -InstallDir .\.dotnet
+  if errorlevel 1 goto :fail
+)
+
 echo [MARX] Preparing local flower assets...
 if exist scripts\setup_flower_assets.bat (
   call scripts\setup_flower_assets.bat
 )
 
 echo [MARX] Restoring packages...
-dotnet restore MARX.Windows.sln
+.dotnet\dotnet.exe restore MARX.Windows.sln
 if errorlevel 1 goto :fail
 
 echo [MARX] Building solution (%CONFIG%)...
-dotnet build MARX.Windows.sln -c %CONFIG% --no-restore
+.dotnet\dotnet.exe build MARX.Windows.sln -c %CONFIG% --no-restore
 if errorlevel 1 goto :fail
 
 echo [MARX] Running tests (if any)...
-dotnet test MARX.Windows.sln -c %CONFIG% --no-build
+.dotnet\dotnet.exe test MARX.Windows.sln -c %CONFIG% --no-build
 if errorlevel 1 goto :fail
 
 echo [MARX] Done.

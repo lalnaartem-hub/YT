@@ -7,10 +7,13 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A91F21D2-10F3-4D39-BB64-60533EF4B6CC}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
+		global.json = global.json
 		build_windows.bat = build_windows.bat
 		build_windows.ps1 = build_windows.ps1
 		scripts\setup_flower_assets.bat = scripts\setup_flower_assets.bat
 		scripts\setup_flower_assets.ps1 = scripts\setup_flower_assets.ps1
+		scripts\install_dotnet_sdk.bat = scripts\install_dotnet_sdk.bat
+		scripts\install_dotnet_sdk.ps1 = scripts\install_dotnet_sdk.ps1
 	EndProjectSection
 EndProject
 Global
