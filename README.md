@@ -38,6 +38,19 @@ build_windows.bat Release
 
 ---
 
+## Если в Visual Studio "пустой проект"
+
+Проверьте по шагам:
+
+1. Открывайте именно `MARX.Windows.sln`, а не пустую папку.
+2. В `Solution Explorer` должен быть проект `SecureMessenger` и папка `Solution Items`.
+3. Нажмите правой кнопкой по решению → `Restore NuGet Packages`.
+4. Запустите проект (`F5`) и откройте `http://localhost:5000/` — теперь там есть стартовый JSON, чтобы видеть, что сервер реально запущен.
+
+Если проект не загрузился (Unloaded/Unavailable), обычно причина — не установлен .NET 8 SDK или workload ASP.NET в Visual Studio.
+
+---
+
 ## Flower ZIP (ваша ссылка Dropbox)
 
 Добавлены скрипты:

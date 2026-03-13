@@ -13,6 +13,21 @@ builder.Services.AddSingleton<EncryptionService>();
 var app = builder.Build();
 SeedDefaults(app.Services.GetRequiredService<InMemoryStore>());
 
+app.MapGet("/", () => Results.Ok(new
+{
+    service = "MARX SecureMessenger",
+    status = "running",
+    docs = new[]
+    {
+        "/api/health",
+        "/api/auth/request-code",
+        "/api/auth/register",
+        "/api/auth/login",
+        "/api/gifts",
+        "/api/gifts/animation-presets"
+    }
+}));
+
 app.MapGet("/api/health", () => Results.Ok(new { status = "ok", service = "MARX Core", utc = DateTimeOffset.UtcNow }));
 app.MapGet("/api/themes", () => Results.Ok(ThemeCatalog.All));
 app.MapGet("/api/platforms", () => Results.Ok(new { windows = "supported", android = "planned", web = "planned" }));
