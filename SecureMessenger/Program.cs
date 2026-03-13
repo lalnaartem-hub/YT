@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using SecureMessenger.Models;
@@ -14,6 +15,15 @@ public static class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+builder.Logging.ClearProviders();
+builder.Logging.AddSimpleConsole(options =>
+{
+    options.SingleLine = true;
+    options.TimestampFormat = "HH:mm:ss ";
+});
+builder.Logging.SetMinimumLevel(LogLevel.Warning);
+builder.Logging.AddFilter("Microsoft.Hosting.Lifetime", LogLevel.Warning);
+builder.Logging.AddFilter("Microsoft.AspNetCore.Hosting.Diagnostics", LogLevel.Warning);
         builder.Services.AddSingleton<InMemoryStore>();
         builder.Services.AddSingleton<PasswordService>();
         builder.Services.AddSingleton<AuthService>();
@@ -22,20 +32,8 @@ public static class Program
         var app = builder.Build();
         SeedDefaults(app.Services.GetRequiredService<InMemoryStore>());
 
-        app.MapGet("/", () => Results.Ok(new
-        {
-            service = "MARX SecureMessenger",
-            status = "running",
-            docs = new[]
-            {
-                "/api/health",
-                "/api/auth/request-code",
-                "/api/auth/register",
-                "/api/auth/login",
-                "/api/gifts",
-                "/api/gifts/animation-presets"
-            }
-        }));
+        app.MapGet("/", () => Results.Content(GetLandingHtml(), "text/html; charset=utf-8"));
+app.MapGet("/favicon.ico", () => Results.NoContent());
 
         app.MapGet("/api/health", () => Results.Ok(new { status = "ok", service = "MARX Core", utc = DateTimeOffset.UtcNow }));
         app.MapGet("/api/themes", () => Results.Ok(ThemeCatalog.All));
@@ -420,6 +418,35 @@ public static class Program
         new { name = "Crystal+Prism", timelineMs = 1900, intensity = "medium", particleFx = "PrismShards" },
         new { name = "PetalStorm", timelineMs = 2500, intensity = "high", particleFx = "PetalStorm" }
     ];
+    static string GetLandingHtml() => """
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>MARX SecureMessenger</title>
+  <style>
+    body{font-family:Segoe UI,Arial;background:#0f172a;color:#e2e8f0;margin:0}
+    .wrap{max-width:920px;margin:40px auto;padding:24px}
+    .card{background:#111827;border:1px solid #334155;border-radius:14px;padding:20px}
+    a{color:#38bdf8;text-decoration:none}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <h1>MARX SecureMessenger</h1>
+    <p>Сервер запущен успешно. Это backend-приложение, поэтому оно работает как HTTP сервис.</p>
+    <ul>
+      <li><a href="/api/health">/api/health</a></li>
+      <li><a href="/api/gifts">/api/gifts</a></li>
+      <li><a href="/api/gifts/animation-presets">/api/gifts/animation-presets</a></li>
+    </ul>
+  </div>
+</div>
+</body>
+</html>
+""";
 
     static void SeedDefaults(InMemoryStore store)
     {
